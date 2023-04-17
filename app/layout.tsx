@@ -16,9 +16,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={
-          albertSans.className
-        } /* className="sm:flex font-albert-sans font-text font-medium antialiased text-lg bg-wash dark:bg-wash-dark text-secondary dark:text-secondary-dark leading-base" */
+        className={`${albertSans.className} sm:flex font-albert-sans font-text font-medium antialiased text-lg bg-wash dark:bg-wash-dark text-secondary dark:text-secondary-dark leading-base`}
       >
         <main>
           <SupabaseProvider>{children}</SupabaseProvider>
