@@ -1,8 +1,8 @@
-"use client";
-import { faSearch, faSliders } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+'use client';
+import { faSearch, faSliders } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useState } from "react";
+import { useState } from 'react';
 export default function SearchBar() {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -17,7 +17,7 @@ export default function SearchBar() {
   return (
     <div
       className={`flex w-2/3 bg-[#F2F5F6] rounded-lg ${
-        isFocused ? "ring-2 ring-[#7070FE]" : ""
+        isFocused ? 'ring-2 ring-[#7070FE]' : ''
       } items-center`}
     >
       <button className="mx-6 rounded-full my-auto hover:bg-gray-300 p-2 h-10 w-10 focus:outline-none focus:ring-2 focus:ring-[#7070FE]">
