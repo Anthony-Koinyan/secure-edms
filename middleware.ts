@@ -4,21 +4,29 @@ import { NextResponse } from 'next/server';
 import type { Database } from './lib/schema';
 import type { NextRequest } from 'next/server';
 
+export const revalidate = 0;
+
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-  const pathname = req.nextUrl.pathname;
+  const { pathname, origin } = req.nextUrl;
+
+  if (pathname === '/login') {
+    return res;
+  }
 
   const supabase = createMiddlewareSupabaseClient<Database>({ req, res });
 
-  const {
+  let {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session && pathname === '/') {
-    const url = new URL(req.url);
-    url.pathname = '/login';
-    return NextResponse.redirect(url);
+  if (!session) {
+    return NextResponse.redirect(new URL('/login', origin));
   }
 
   return res;
 }
+
+export const config = {
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+};

@@ -1,7 +1,9 @@
-import '@fortawesome/fontawesome-svg-core/styles.css';
-
+import { NotificationProvider } from '@/lib/Notifications';
+import UserContext from '@/lib/user-context';
 import Header from '@/ui//Header';
-import Sidebar from '@/ui/Sidebar';
+import Nav from '@/ui/Nav';
+
+import Notifications from './Notifications';
 
 export default async function RootLayout({
   children,
@@ -9,12 +11,18 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Sidebar />
-      <section className="sm:ml-64 ml-10 w-[calc(100vw-16rem)]">
-        <Header />
-        {children}
-      </section>
-    </>
+    <UserContext>
+      <NotificationProvider>
+        <div className="max-h-screen overflow-y-hidden">
+          <Nav />
+          {/*  @ts-expect-error */}
+          <Header />
+          <main className="md:ml-64 ml-0 mb-10 md:mb-0 md:w-[calc(100vw-16rem)] relative">
+            <Notifications />
+            {children}
+          </main>
+        </div>
+      </NotificationProvider>
+    </UserContext>
   );
 }

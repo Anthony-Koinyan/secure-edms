@@ -1,12 +1,13 @@
 import '@/styles/globals.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+
 import { Albert_Sans } from 'next/font/google';
+
+import SupabaseProvider from '@/lib/supabase-provider';
 
 const albertSans = Albert_Sans({
   subsets: ['latin'],
 });
-
-import SupabaseProvider from '@/lib/supabase-provider';
 
 export default async function RootLayout({
   children,
@@ -16,11 +17,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${albertSans.className} sm:flex font-albert-sans font-text font-medium antialiased text-lg bg-wash dark:bg-wash-dark text-secondary dark:text-secondary-dark leading-base`}
+        className={`${albertSans.className} font-albert-sans font-text font-medium antialiased text-lg bg-wash dark:bg-wash-dark text-secondary dark:text-secondary-dark leading-base`}
       >
-        <main>
-          <SupabaseProvider>{children}</SupabaseProvider>
-        </main>
+        <SupabaseProvider>{children}</SupabaseProvider>
       </body>
     </html>
   );

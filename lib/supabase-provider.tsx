@@ -18,14 +18,7 @@ export default function SupabaseProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [supabase] = useState(() =>
-    createBrowserSupabaseClient(),
-    //   {
-    //   supabaseUrl: 'https://rhwucicdcroucgjdzitr.supabase.co',
-    //   supabaseKey:
-    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJod3VjaWNkY3JvdWNnamR6aXRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzk5Njg0MTMsImV4cCI6MTk5NTU0NDQxM30.tbplWBtGx-lJBHtyb051-ZeWNODn5364-ocO6DTUMc4',
-    // }
-  );
+  const [supabase] = useState(() => createBrowserSupabaseClient());
 
   const router = useRouter();
 
