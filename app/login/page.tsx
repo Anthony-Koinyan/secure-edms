@@ -5,23 +5,37 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileShield } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle, faGithub } from '@fortawesome/free-brands-svg-icons';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 function SocialLogin() {
   const [loading, setLoading] = useState(false);
   const { supabase } = useSupabase();
-  // const router = useRouter();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  // useEffect(() => {
-  //   supabase.auth.getSession().then(({ data: { session } }) => {
-  //     if (session) {
-  //       router.push('/');
-  //     }
-  //   });
-  // });
+  useEffect(() => {
+    async function checkSessionAndRedirect() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        const redirectFrom = searchParams.get('redirectedFrom');
+        if (redirectFrom) {
+          router.push(redirectFrom.toString());
+        } else {
+          router.push('/');
+        }
+      }
+    }
+    if (window.location.hash.includes('access_token')) {
+      checkSessionAndRedirect();
+    }
+  });
 
   async function handleLogin(provider: 'google' | 'github') {
     setLoading(true);
+
     const { error } = await supabase.auth.signInWithOAuth({ provider });
     if (error) console.log(error);
     setLoading(false);
