@@ -1,46 +1,23 @@
-'use client';
-
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
 
-import { useSupabase } from '@/lib/supabase-provider';
-import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { createClient } from '@/utils/supabase-server';
 
 import Logo from '../../public/logo.png';
+import LoginProviderButton from './LoginProviderButton';
 
-function SocialLogin() {
-  const [loading, setLoading] = useState(false);
-  const { supabase } = useSupabase();
-  const router = useRouter();
-  const searchParams = useSearchParams();
+export default async function ({
+  searchParams,
+}: {
+  searchParams: { redirectedFrom: string };
+}) {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  useEffect(() => {
-    async function checkSessionAndRedirect() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        const redirectFrom = searchParams.get('redirectedFrom');
-        if (redirectFrom) {
-          router.push(redirectFrom.toString());
-        } else {
-          router.push('/');
-        }
-      }
-    }
-    if (window.location.hash.includes('access_token')) {
-      checkSessionAndRedirect();
-    }
-  });
-
-  async function handleLogin(provider: 'google' | 'github') {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({ provider });
-    if (error) console.log(error);
-    setLoading(false);
+  if (session) {
+    redirect(searchParams.redirectedFrom ?? '/');
   }
 
   return (
@@ -65,28 +42,8 @@ function SocialLogin() {
           Please sign in to continue
         </p>
         <div className="flex items-center flex-col gap-4">
-          <button
-            className="flex items-center justify-center border-2 border-gray-400 rounded-md p-2 hover:bg-red-600/30 hover:border-red-600 transition-colors duration-300 ease-in-out w-56"
-            onClick={() => handleLogin('google')}
-            disabled={loading}
-          >
-            <FontAwesomeIcon
-              icon={faGoogle}
-              className="text-red-600 mr-2 w-8"
-            />
-            <span>Sign in with Google</span>
-          </button>
-          <button
-            className="flex items-center justify-center border-2 border-gray-400 rounded-md p-2 hover:bg-gray-600/30 hover:border-gray-600 transition-colors duration-300 ease-in-out w-56"
-            onClick={() => handleLogin('github')}
-            disabled={loading}
-          >
-            <FontAwesomeIcon
-              icon={faGithub}
-              className="text-gray-600 mr-2 w-8"
-            />
-            <span>Sign in with GitHub</span>
-          </button>
+          <LoginProviderButton provider="google" />
+          <LoginProviderButton provider="github" />
         </div>
         <p className="text-sm text-gray-500 mt-10 text-center">
           This app only supports social login to simplify the login process and
@@ -96,5 +53,3 @@ function SocialLogin() {
     </main>
   );
 }
-
-export default SocialLogin;

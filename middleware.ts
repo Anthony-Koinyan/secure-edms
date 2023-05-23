@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
     return res;
   }
 
-  const supabase = createMiddlewareSupabaseClient({ req, res });
+  const supabase = createMiddlewareSupabaseClient<Database>({ req, res });
 
   const {
     data: { session },
