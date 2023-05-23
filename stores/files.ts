@@ -8,8 +8,8 @@ export const initStore = (files: FileObject[]) => {
   fileStore.set([...files]);
 };
 
-export const addToStore = (file: FileObject[]) => {
-  fileStore.set([...fileStore.get(), ...file]);
+export const addToStore = (file: FileObject) => {
+  fileStore.set([...fileStore.get(), file]);
 };
 
 export const removeFromStore = (id: string) => {

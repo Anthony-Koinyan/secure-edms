@@ -69,20 +69,18 @@ const NewEmptyFolder = ({
 
       updateNotification(notificationId, 'success', `${folderName} created`);
       close();
-      addToStore([
-        {
-          name: folderName,
-          id: window.crypto.randomUUID(),
-          // @ts-expect-error
-          updated_at: null,
-          // @ts-expect-error
-          created_at: null,
-          // @ts-expect-error
-          last_accessed_at: null,
-          // @ts-expect-error
-          metadata: null,
-        },
-      ]);
+      addToStore({
+        name: folderName,
+        id: window.crypto.randomUUID(),
+        // @ts-expect-error
+        updated_at: null,
+        // @ts-expect-error
+        created_at: null,
+        // @ts-expect-error
+        last_accessed_at: null,
+        // @ts-expect-error
+        metadata: null,
+      });
     }
   };
 

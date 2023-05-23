@@ -104,40 +104,36 @@ export default ({
 
         if (!!file.webkitRelativePath) {
           if (progress === 0) {
-            addToStore([
-              {
-                name: file.name,
-                id: window.crypto.randomUUID(),
-                // @ts-expect-error
-                updated_at: null,
-                // @ts-expect-error
-                created_at: null,
-                // @ts-expect-error
-                last_accessed_at: null,
-                // @ts-expect-error
-                metadata: null,
-              },
-            ]);
-          }
-        } else {
-          addToStore([
-            {
+            addToStore({
               name: file.name,
               id: window.crypto.randomUUID(),
-              updated_at: new Date().toString(),
-              created_at: new Date().toString(),
+              // @ts-expect-error
+              updated_at: null,
+              // @ts-expect-error
+              created_at: null,
               // @ts-expect-error
               last_accessed_at: null,
-              metadata: {
-                size: file.size,
-                mimetype: file.type,
-                cacheControl: 'max-age=3600',
-                lastModified: new Date().toString(),
-                contentLength: file.size,
-                httpStatusCode: 200,
-              },
+              // @ts-expect-error
+              metadata: null,
+            });
+          }
+        } else {
+          addToStore({
+            name: file.name,
+            id: window.crypto.randomUUID(),
+            updated_at: new Date().toString(),
+            created_at: new Date().toString(),
+            // @ts-expect-error
+            last_accessed_at: null,
+            metadata: {
+              size: file.size,
+              mimetype: file.type,
+              cacheControl: 'max-age=3600',
+              lastModified: new Date().toString(),
+              contentLength: file.size,
+              httpStatusCode: 200,
             },
-          ]);
+          });
         }
 
         progress++;
