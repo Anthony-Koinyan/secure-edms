@@ -153,8 +153,6 @@ export default function DefaultMenu({
     await Promise.all(promises);
 
     if (completed > 0) {
-      console.log('foo');
-
       const content = await zip.generateAsync({ type: 'blob' });
       const url = URL.createObjectURL(content);
       const link = document.createElement('a');
