@@ -92,7 +92,6 @@ export default ({
             contentType: file.type,
           });
 
-        // Update notification with upload error
         if (error) {
           console.error(error);
           return addNotification(
@@ -103,6 +102,44 @@ export default ({
           );
         }
 
+        if (!!file.webkitRelativePath) {
+          if (progress === 0) {
+            addToStore([
+              {
+                name: file.name,
+                id: window.crypto.randomUUID(),
+                // @ts-expect-error
+                updated_at: null,
+                // @ts-expect-error
+                created_at: null,
+                // @ts-expect-error
+                last_accessed_at: null,
+                // @ts-expect-error
+                metadata: null,
+              },
+            ]);
+          }
+        } else {
+          addToStore([
+            {
+              name: file.name,
+              id: window.crypto.randomUUID(),
+              updated_at: new Date().toString(),
+              created_at: new Date().toString(),
+              // @ts-expect-error
+              last_accessed_at: null,
+              metadata: {
+                size: file.size,
+                mimetype: file.type,
+                cacheControl: 'max-age=3600',
+                lastModified: new Date().toString(),
+                contentLength: file.size,
+                httpStatusCode: 200,
+              },
+            },
+          ]);
+        }
+
         progress++;
 
         updateNotification(
@@ -111,30 +148,6 @@ export default ({
           `Uploaded ${file.name}`,
           (progress / files.length) * 100,
         );
-
-        addToStore([
-          {
-            name: file.name,
-            id: window.crypto.randomUUID(),
-            // @ts-expect-error
-            updated_at: file.webkitRelativePath ? new Date() : null,
-            // @ts-expect-error
-            created_at: file.webkitRelativePath ? new Date() : null,
-            // @ts-expect-error
-            last_accessed_at: null,
-            // @ts-expect-error
-            metadata: file.webkitRelativePath
-              ? {
-                  size: file.size,
-                  mimetype: file.type,
-                  cacheControl: 'max-age=3600',
-                  lastModified: new Date(),
-                  contentLength: file.size,
-                  httpStatusCode: 200,
-                }
-              : null,
-          },
-        ]);
       });
 
       await Promise.all(promises);
