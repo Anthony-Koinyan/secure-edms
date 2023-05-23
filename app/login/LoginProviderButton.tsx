@@ -20,6 +20,7 @@ export default function ({ provider }: { provider: Provider }) {
   }
 
   const icon = provider === 'github' ? faGithub : faGoogle;
+  const iconColor = provider === 'github' ? 'text-gray-600' : 'text-red-600';
   const providerStyles =
     provider === 'github'
       ? 'hover:bg-gray-600/30 hover:border-gray-600'
@@ -31,7 +32,7 @@ export default function ({ provider }: { provider: Provider }) {
       onClick={() => handleLogin(provider)}
       disabled={loading}
     >
-      <FontAwesomeIcon icon={icon} className="text-gray-600 mr-2 w-8" />
+      <FontAwesomeIcon icon={icon} className={`mr-2 w-8 ${iconColor}`} />
       <span>
         Sign in with {provider.charAt(0).toUpperCase() + provider.slice(1)}
       </span>
