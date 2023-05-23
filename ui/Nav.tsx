@@ -1,12 +1,12 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { faFolder, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import {
-  faFileShield,
   faFolder as faFolderSolid,
   faPlus,
   faTrashCan as faTrashCanSolid,
@@ -14,6 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import Logo from '../public/logo.png';
 import UploadActions from './UploadActions';
 
 function StorageIndicator({ usedStorage }: { usedStorage: number }) {
@@ -152,10 +153,16 @@ const Sidebar = () => {
     return (
       <aside className="fixed top-0 left-0 h-screen w-64 z-50 bg-[#16171B] text-lg text-[#F8F9FE] px-4 pb-10 shadow-lg transform transition-transform flex flex-col">
         <div className="my-8">
-          <span className="rounded-full bg-[#47484c] p-2 items-center mr-3">
-            <FontAwesomeIcon icon={faFileShield} />
+          <span className="p-2 flex justify-between items-center">
+            <Image
+              width={64}
+              height={64}
+              src={Logo}
+              alt="Leadcity logo"
+              className="m-auto"
+            />
+            <div className="text-xl ml-4 w-full">Leadcity Secure EDMS</div>
           </span>
-          <span className="text-2xl">Secure EDMS</span>
         </div>
         <button
           className="text-white items-center p-3 bg-[#7070FE] focus:outline-none focus:ring focus:ring-[#7070FE]/50 rounded-lg w-full mt-2 mb-6"

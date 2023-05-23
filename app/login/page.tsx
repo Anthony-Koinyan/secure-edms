@@ -1,11 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSupabase } from '@/lib/supabase-provider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileShield } from '@fortawesome/free-solid-svg-icons';
-import { faGoogle, faGithub } from '@fortawesome/free-brands-svg-icons';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { useSupabase } from '@/lib/supabase-provider';
+import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import Logo from '../../public/logo.png';
 
 function SocialLogin() {
   const [loading, setLoading] = useState(false);
@@ -35,7 +38,6 @@ function SocialLogin() {
 
   async function handleLogin(provider: 'google' | 'github') {
     setLoading(true);
-
     const { error } = await supabase.auth.signInWithOAuth({ provider });
     if (error) console.log(error);
     setLoading(false);
@@ -45,10 +47,16 @@ function SocialLogin() {
     <main className="flex items-center justify-center bg-[#dce1ea] w-screen h-screen">
       <div className="max-w-lg h-fit mx-auto p-4 rounded-md shadow-md bg-white">
         <div className="p-4">
-          <span className="rounded-full bg-gray-200 p-2 items-center mr-3">
-            <FontAwesomeIcon icon={faFileShield} />
+          <span className="p-2 flex justify-between items-center">
+            <Image
+              width={64}
+              height={64}
+              src={Logo}
+              alt="Leadcity logo"
+              className="m-auto"
+            />
+            <div className="text-xl ml-4 w-full">Leadcity Secure EDMS</div>
           </span>
-          <span className="text-2xl">Secure EDMS</span>
         </div>
         <h2 className="text-center text-xl font-bold mb-8">
           Welcome to Our App!
