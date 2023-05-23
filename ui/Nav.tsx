@@ -36,7 +36,7 @@ function StorageIndicator({ usedStorage }: { usedStorage: number }) {
         ></div>
       </span>
       <p className="text-xs text-[#F8F9FE] mt-1">
-        {usedStorage}GB used of {totalStorage}GB
+        {usedStorage} GB used of {totalStorage} GB
       </p>
     </div>
   );
@@ -179,7 +179,7 @@ const Sidebar = () => {
           )}
         </div>
         <Nav />
-        <StorageIndicator usedStorage={0.35} />
+        <StorageIndicator usedStorage={0.1} />
       </aside>
     );
   }
