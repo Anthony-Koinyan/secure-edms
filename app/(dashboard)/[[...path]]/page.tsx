@@ -3,14 +3,22 @@ import { randomUUID } from 'crypto';
 import StoreInitialiser from '@/lib/StoreInitialiser';
 import FileList from '@/ui/FileList';
 import { createClient } from '@/utils/supabase-server';
+import { Metadata } from 'next';
 
 export const revalidate = 0;
 
-export default async function Folder({
-  params,
-}: {
+interface Props {
   params: { path: string[] };
-}) {
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const folder = params.path ? params.path.at(-1)! : 'My files';
+  const title = folder.split('-').join(' ');
+
+  return { title: `${title} | LCU Secure EDMS` };
+}
+
+export default async function ({ params }: Props) {
   const supabase = createClient();
 
   const path = !params.path

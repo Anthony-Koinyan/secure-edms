@@ -4,10 +4,15 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { Albert_Sans } from 'next/font/google';
 
 import SupabaseProvider from '@/lib/supabase-provider';
+import { Metadata } from 'next';
 
 const albertSans = Albert_Sans({
   subsets: ['latin'],
 });
+
+export const metadata: Metadata = {
+  title: 'LCU Secure EDMS',
+};
 
 export default async function RootLayout({
   children,
