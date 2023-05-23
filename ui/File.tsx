@@ -40,6 +40,7 @@ function FileInTableLayout({
         htmlFor={file.id}
         className="relative gap-x-5 grid grid-cols-6 grid-rows-2 md:grid-rows-1 md:grid-cols-12 items-center px-4 py-2 rounded-xl md:gap-2 text-base border-2 border-gray-200 focus-within:border-[#7070FE] focus-within:bg-[#7070FE]/10 hover:border-[#7070FE] hover:bg-[#7070FE]/20 cursor-pointer"
         onContextMenu={(e) => {
+          e.preventDefault();
           if (file.metadata) {
             setShowContextMenu(true);
             setCursorPosition({ x: e.clientX, y: e.clientY });
