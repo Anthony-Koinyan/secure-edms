@@ -12,6 +12,7 @@ import { getSubFiles } from '@/utils/getSubFiles';
 import { useFileListActions } from './FileList';
 import { User } from '@supabase/auth-helpers-nextjs';
 import { BlobReader, BlobWriter, ZipWriter } from '@zip.js/zip.js';
+import download from '@/utils/download';
 
 interface DownloadArgs {
   path: string;
@@ -81,7 +82,9 @@ async function handleDownload({
       );
     }
 
-    const keyIvPairToJson = JSON.stringify(keyIvPair, null, 2);
+    const iv = Array.from(keyIvPair.iv);
+
+    const keyIvPairToJson = JSON.stringify({ key: keyIvPair.key, iv }, null, 2);
     const keyIvPairJsonBlob = new Blob([keyIvPairToJson], {
       type: 'application/json',
     });
@@ -103,10 +106,7 @@ async function handleDownload({
   await Promise.all(promises);
 
   if (completed > 0) {
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(await zip.close());
-    link.download = `${file.name}.zip`;
-    link.click();
+    download(await zip.close(), `${file.name}.zip`);
   }
 
   if (completed === paths.length) {
