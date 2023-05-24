@@ -61,7 +61,9 @@ export async function storeKey(
 export async function fetchKey(
   path: string,
   supabase: SupabaseClient,
-): Promise<[KeyIVPair | null, PostgrestError | null]> {
+): Promise<
+  [{ key: JsonWebKey; iv: Uint8Array } | null, PostgrestError | null]
+> {
   const { data, error } = await supabase
     .from('keys')
     .select('key_data, iv')
@@ -76,16 +78,15 @@ export async function fetchKey(
     return [null, null];
   }
 
-  const key = await crypto.subtle.importKey(
-    'jwk',
-    data.key_data,
-    { name: 'AES-GCM' },
-    true,
-    ['encrypt', 'decrypt'],
-  );
+  // const key = await crypto.subtle.importKey(
+  //   'jwk',
+  //   data.key_data,
+  //   { name: 'AES-GCM' },
+  //   true,
+  //   ['encrypt', 'decrypt'],
+  // );
 
-  const iv = hexToBytes(data.iv);
-  return [{ key, iv }, null];
+  return [{ key: data.key_data, iv: hexToBytes(data.iv) }, null];
 }
 
 // Function to encrypt a file with AES-256
