@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { faFolder, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import {
+  faFingerprint,
   faFolder as faFolderSolid,
   faPlus,
   faTrashCan as faTrashCanSolid,
@@ -24,18 +25,18 @@ function StorageIndicator({ usedStorage }: { usedStorage: number }) {
   const unusedPercent = 100 - usedPercent;
 
   return (
-    <div className="p-4 bg-[#292A2c] rounded-lg w-full mt-auto">
-      <span className="flex mb-2">
+    <div className="mt-auto w-full rounded-lg bg-[#292A2c] p-4">
+      <span className="mb-2 flex">
         <div
-          className="bg-[#F8F9FE] rounded-l-full h-2"
+          className="h-2 rounded-l-full bg-[#F8F9FE]"
           style={{ width: `${usedPercent}%` }}
         ></div>
         <div
-          className="bg-[#3F4044] rounded-r-full h-2"
+          className="h-2 rounded-r-full bg-[#3F4044]"
           style={{ width: `${unusedPercent}%` }}
         ></div>
       </span>
-      <p className="text-xs text-[#F8F9FE] mt-1">
+      <p className="mt-1 text-xs text-[#F8F9FE]">
         {usedStorage} GB used of {totalStorage} GB
       </p>
     </div>
@@ -56,9 +57,9 @@ const NavItem = ({
   return (
     <Link
       href={route}
-      className={`flex sm:flex-row flex-col md:hover:bg-[#292A2C]/50 rounded-lg p-3 items-center w-full my-auto md:my-2 focus:outline-none focus:bg-[#292A2C]/50 active:ring-0 ${
+      className={`my-auto flex w-full flex-col items-center rounded-lg p-3 focus:bg-[#292A2C]/50 focus:outline-none active:ring-0 sm:flex-row md:my-2 md:hover:bg-[#292A2C]/50 ${
         isActive
-          ? 'md:bg-[#292A2C] md:focus:ring-2 md:hover:ring-2 md:focus:ring-gray-500 md:hover:ring-gray-500'
+          ? 'md:bg-[#292A2C] md:hover:ring-2 md:hover:ring-gray-500 md:focus:ring-2 md:focus:ring-gray-500'
           : ''
       }`}
     >
@@ -82,21 +83,32 @@ const Nav = ({ mobileView = false }) => {
       <nav
         className={`${
           mobileView &&
-          'fixed top-[calc(100vh-5rem)] bottom-0 w-screen h-20 z-50 bg-[#16171B] text-lg text-[#F8F9FE] px-2 gap-4 shadow-lg transform transition-transform'
+          'fixed bottom-0 top-[calc(100vh-5rem)] z-50 h-20 w-screen transform gap-4 bg-[#16171B] px-2 text-lg text-[#F8F9FE] shadow-lg transition-transform'
         }`}
       >
         <ul
-          className={`${mobileView && 'grid grid-rows-1 grid-cols-2 my-auto'}`}
+          className={`${mobileView && 'my-auto grid grid-cols-3 grid-rows-1'}`}
         >
           <li>
             <NavItem
-              isActive={segement !== 'Trash'}
+              isActive={segement !== 'Trash' && segement !== 'decrypt'}
               route="/"
               icon={
-                mobileView && segement !== 'Trash' ? faFolderSolid : faFolder
+                mobileView && segement !== 'Trash' && segement !== 'decrypt'
+                  ? faFolderSolid
+                  : faFolder
               }
             >
               My Files
+            </NavItem>
+          </li>
+          <li>
+            <NavItem
+              isActive={segement === 'decrypt'}
+              route="/decrypt"
+              icon={faFingerprint}
+            >
+              Decrypt
             </NavItem>
           </li>
           <li>
@@ -117,10 +129,10 @@ const Nav = ({ mobileView = false }) => {
       {mobileView && (
         <>
           <button
-            className=" absolute bottom-28 right-5 z-50 text-white w-16 h-16 flex p-2 bg-[#7070FE] focus:outline-none focus:ring focus:ring-[#7070FE]/50 rounded-full"
+            className="absolute bottom-28 right-5 z-50 flex h-16 w-16 rounded-full bg-[#7070FE] p-2 text-white focus:outline-none focus:ring focus:ring-[#7070FE]/50"
             onClick={() => setShowOverlay(true)}
           >
-            <FontAwesomeIcon icon={faPlus} className="m-auto w-14 h-14" />
+            <FontAwesomeIcon icon={faPlus} className="m-auto h-14 w-14" />
           </button>
 
           <div>
@@ -151,9 +163,9 @@ const Sidebar = () => {
 
   if (windowWidth && windowWidth > 768) {
     return (
-      <aside className="fixed top-0 left-0 h-screen w-64 z-50 bg-[#16171B] text-lg text-[#F8F9FE] px-4 pb-10 shadow-lg transform transition-transform flex flex-col">
+      <aside className="fixed left-0 top-0 z-50 flex h-screen w-64 transform flex-col bg-[#16171B] px-4 pb-10 text-lg text-[#F8F9FE] shadow-lg transition-transform">
         <div className="my-8">
-          <span className="p-2 flex justify-between items-center">
+          <span className="flex items-center justify-between p-2">
             <Image
               width={64}
               height={64}
@@ -161,11 +173,11 @@ const Sidebar = () => {
               alt="Leadcity logo"
               className="m-auto"
             />
-            <div className="text-xl ml-4 w-full">Lead City Secure EDMS</div>
+            <div className="ml-4 w-full text-xl">Lead City Secure EDMS</div>
           </span>
         </div>
         <button
-          className="text-white items-center p-3 bg-[#7070FE] focus:outline-none focus:ring focus:ring-[#7070FE]/50 rounded-lg w-full mt-2 mb-6"
+          className="mb-6 mt-2 w-full items-center rounded-lg bg-[#7070FE] p-3 text-white focus:outline-none focus:ring focus:ring-[#7070FE]/50"
           onClick={() => setUploadActionsVisiblity(true)}
         >
           <span>
