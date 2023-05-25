@@ -1,5 +1,6 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { addToStore } from 'stores/files';
 
 import { useNotification } from '@/lib/Notifications';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -8,24 +9,14 @@ import { faCircleNotch, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Upload from './UploadFile';
-import { revalidatePath } from 'next/cache';
-import { addToStore } from 'stores/files';
 
-type SupabaseClient = ReturnType<typeof useSupabase>['supabase'];
-
-const NewEmptyFolder = ({
-  close,
-  supabase,
-  path,
-}: {
-  close: () => void;
-  supabase: SupabaseClient;
-  path: string;
-}) => {
+function NewEmptyFolder({ close }: { close: () => void }) {
+  const path = usePathname();
+  const user = useUserContext();
+  const { supabase } = useSupabase();
   const inputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { addNotification, updateNotification } = useNotification();
-  const user = useUserContext();
 
   useEffect(() => {
     if (inputRef.current) {
@@ -117,14 +108,11 @@ const NewEmptyFolder = ({
       </div>
     </div>
   );
-};
+}
 
 export default ({ close }: { close: () => void }) => {
-  const { supabase } = useSupabase();
-
   const [isNewFolderDialogVisible, setIsNewFolderDialogVisible] =
     useState(false);
-  const path = usePathname();
 
   return (
     <>
@@ -133,9 +121,9 @@ export default ({ close }: { close: () => void }) => {
         onClick={close}
       ></div>
       {!isNewFolderDialogVisible && (
-        <div className="fixed md:top-0 md:left-0 md:bottom-0 md:right-0 bottom-48 right-10 p-4 rounded-xl w-72 h-fit md:ml-72 md:mt-12 z-50 bg-white shadow-2xl transform transition-transform text-[#292A2C]/90 flex flex-col gap-3">
+        <div className="fixed md:top-0 md:left-0 md:bottom-0 md:right-0 bottom-48 right-10 p-4 rounded-xl w-60 h-fit md:ml-72 md:mt-12 z-50 bg-white shadow-2xl transform transition-transform text-[#292A2C]/90 flex flex-col gap-3">
           <button
-            className="p-4 hover:bg-gray-300/30"
+            className="p-4 hover:bg-gray-300/30 text-left"
             onClick={() => {
               setIsNewFolderDialogVisible(true);
             }}
@@ -144,27 +132,15 @@ export default ({ close }: { close: () => void }) => {
             <span className="ml-4">New folder</span>
           </button>
           <div className="w-full h-px border border-gray-400"></div>
-          <Upload
-            supabase={supabase}
-            forFolder={true}
-            close={close}
-            path={path}
-          >
+          <Upload folder={true} close={close}>
             Folder upload
           </Upload>
-          <Upload
-            supabase={supabase}
-            forFolder={false}
-            close={close}
-            path={path}
-          >
+          <Upload folder={false} close={close}>
             File upload
           </Upload>
         </div>
       )}
-      {isNewFolderDialogVisible && (
-        <NewEmptyFolder close={close} supabase={supabase} path={path} />
-      )}
+      {isNewFolderDialogVisible && <NewEmptyFolder close={close} />}
     </>
   );
 };
