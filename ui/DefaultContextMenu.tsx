@@ -1,4 +1,5 @@
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { removeFromStore } from 'stores/files';
 
 import { fetchKey } from '@/lib/crypto';
@@ -6,16 +7,15 @@ import { useNotification } from '@/lib/Notifications';
 import { useSupabase } from '@/lib/supabase-provider';
 import { FileObject } from '@/lib/types';
 import { useUserContext } from '@/lib/user-context';
+import download from '@/utils/download';
 import { formatFilePath } from '@/utils/formatFilePath';
 import { getSubFiles } from '@/utils/getSubFiles';
-
-import { useFileListActions } from './FileList';
-import { User } from '@supabase/auth-helpers-nextjs';
-import { BlobReader, BlobWriter, ZipWriter } from '@zip.js/zip.js';
-import download from '@/utils/download';
-import { useState } from 'react';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { User } from '@supabase/auth-helpers-nextjs';
+import { BlobReader, BlobWriter, ZipWriter } from '@zip.js/zip.js';
+
+import { useFileListActions } from './FileList';
 
 interface DownloadArgs {
   path: string;
