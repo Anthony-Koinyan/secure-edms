@@ -78,11 +78,16 @@ export default ({ user }: { user: User | null }) => {
               {loading ? (
                 <FontAwesomeIcon
                   icon={faCircleNotch}
+                  height={64}
+                  className="mr-3"
                   spin
-                  className="w-12 h-12"
                 />
               ) : (
-                <FontAwesomeIcon icon={faSignOut} className="w-12 h-12" />
+                <FontAwesomeIcon
+                  icon={faSignOut}
+                  height={64}
+                  className="mr-3"
+                />
               )}
               <span className="text-gray-800">Sign out</span>
             </button>
