@@ -8,9 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default ({ path }: { path: string }) => {
   const folders = path.length === 1 ? [path] : path.split('/');
-  const [maxFolder, setMaxFolders] = useState<1 | 3>(
-    window.innerWidth < 640 ? 1 : 3,
-  );
+  const [maxFolder, setMaxFolders] = useState<1 | 3>(3);
 
   const [showDropdown, setShowDropdown] = useState(false);
 

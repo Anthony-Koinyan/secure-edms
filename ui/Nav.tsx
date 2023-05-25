@@ -148,20 +148,28 @@ const Nav = ({ mobileView = false }) => {
 
 const Sidebar = () => {
   const [uploadActionsVisiblity, setUploadActionsVisiblity] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window?.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(768);
 
   useEffect(() => {
     function handleResize() {
-      setWindowWidth(window?.innerWidth);
+      if (window) {
+        setWindowWidth(window.innerWidth);
+      }
     }
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
+    if (window) {
+      window.addEventListener('resize', handleResize);
+      handleResize();
+    }
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, [window?.innerWidth]);
+    return () => {
+      if (window) {
+        return window.removeEventListener('resize', handleResize);
+      }
+    };
+  });
 
-  if (windowWidth && windowWidth > 768) {
+  if (windowWidth >= 768) {
     return (
       <aside className="fixed left-0 top-0 z-50 flex h-screen w-64 transform flex-col bg-[#16171B] px-4 pb-10 text-lg text-[#F8F9FE] shadow-lg transition-transform">
         <div className="my-8">
