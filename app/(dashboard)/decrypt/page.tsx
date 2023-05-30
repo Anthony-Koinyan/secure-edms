@@ -32,7 +32,7 @@ export default function () {
     }
 
     const notificationId = addNotification(
-      `Downloading ${file.name}`,
+      `Startind decryption for ${file.name}`,
       'loading',
       0,
     );
@@ -51,7 +51,7 @@ export default function () {
         return;
       }
 
-      updateNotification(notificationId, 'success', 'Parsing keys', 0);
+      updateNotification(notificationId, 'loading', 'Parsing keys', 0);
 
       // Transform the keys file to a object
       let fileContent = event.target.result;
@@ -71,13 +71,13 @@ export default function () {
 
       updateNotification(
         notificationId,
-        'success',
+        'loading',
         'Keys parsed successfully',
         25,
       );
 
       // Decrypt the file
-      updateNotification(notificationId, 'success', 'Decrypting file', 25);
+      updateNotification(notificationId, 'loading', 'Decrypting file', 25);
       const [decryptedFile, error] = await decryptFile(
         file,
         key,
@@ -99,7 +99,7 @@ export default function () {
 
       updateNotification(
         notificationId,
-        'success',
+        'loading',
         'File decrypted successfully',
         50,
       );
@@ -107,7 +107,7 @@ export default function () {
       // Download the file
       updateNotification(
         notificationId,
-        'success',
+        'loading',
         'Downloading decrypted file',
         75,
       );
