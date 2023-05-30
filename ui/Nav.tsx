@@ -181,7 +181,7 @@ const Sidebar = () => {
               alt="Leadcity logo"
               className="m-auto"
             />
-            <div className="ml-4 w-full text-xl">Lead City Secure EDMS</div>
+            <div className="ml-4 w-full text-xl">Lead City University</div>
           </span>
         </div>
         <button
