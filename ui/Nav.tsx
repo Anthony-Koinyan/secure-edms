@@ -83,7 +83,7 @@ const Nav = ({ mobileView = false }) => {
       <nav
         className={`${
           mobileView &&
-          'fixed bottom-0 top-[calc(100vh-5rem)] z-50 h-20 w-screen transform gap-4 bg-[#16171B] px-2 text-lg text-[#F8F9FE] shadow-lg transition-transform'
+          'fixed bottom-0 z-50 h-20 w-screen transform gap-4 bg-[#16171B] px-2 text-lg text-[#F8F9FE] shadow-lg transition-transform'
         }`}
       >
         <ul
@@ -129,10 +129,10 @@ const Nav = ({ mobileView = false }) => {
       {mobileView && (
         <>
           <button
-            className="absolute bottom-28 right-5 z-50 flex h-16 w-16 rounded-full bg-[#7070FE] p-2 text-white focus:outline-none focus:ring focus:ring-[#7070FE]/50"
+            className="absolute bottom-24 right-5 z-50 flex h-16 w-16 rounded-full bg-[#7070FE] p-2 text-white focus:outline-none focus:ring focus:ring-[#7070FE]/50"
             onClick={() => setShowOverlay(true)}
           >
-            <FontAwesomeIcon icon={faPlus} className="m-auto h-14 w-14" />
+            <FontAwesomeIcon icon={faPlus} className="m-auto" />
           </button>
 
           <div>
