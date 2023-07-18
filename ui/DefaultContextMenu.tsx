@@ -255,7 +255,7 @@ export default function DefaultMenu({
               className="w-full p-2 text-left"
               onClick={() => setShowPasswordPopup(true)}
             >
-              Download encrypted copy
+              Download
             </button>
           </li>
         </ul>
